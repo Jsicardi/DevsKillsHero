@@ -1,5 +1,6 @@
 const fs = require('fs');
 const {Client} = require('pg');
+const { exit } = require('process');
 
 class ApiUtils{
     static async getDBConnection(){
@@ -18,6 +19,7 @@ class ApiUtils{
         }
         catch(e){
             console.error(`Failed to connect ${e}`)
+            exit(-1)
         }
 
     }

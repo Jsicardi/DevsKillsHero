@@ -24,7 +24,14 @@ app.post(`/api/${version}/votes`, async (req,res) => {
 
     if(error){
         //400 Bad Request
-        return res.status(400).send("");
+        return res.status(400);
+    }
+
+    const heroesRows = await VoteApi.getHeroByName(req.body.superhero,pgClient) 
+
+    if (heroesRows == 0){
+        //404 Not Found
+        res.status(404);
     }
 
     const rows = await VoteApi.voteHero(req.body.superhero,pgClient)

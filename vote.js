@@ -10,23 +10,13 @@ class VoteApi{
     }
     
     static async getVotedHeroes(client){
-        try{
-            const results = await client.query(`SELECT * FROM heroes WHERE votes != 0 ORDER BY votes DESC`);
-            return results.rows
-        }
-        catch(e){
-            console.log(e);
-        }
+        const results = await client.query(`SELECT * FROM heroes WHERE votes != 0 ORDER BY votes DESC`);
+        return results.rows
     }
 
     static async getVotedPublishers(client){
-        try{
-            const results = await client.query(`SELECT publisher, sum(votes) as votes FROM heroes GROUP BY publisher ORDER BY votes DESC`);
-            return results.rows
-        }
-        catch(e){
-            console.log(e);
-        }
+        const results = await client.query(`SELECT publisher, sum(votes) as votes FROM heroes GROUP BY publisher ORDER BY votes DESC`);
+        return results.rows
     }
 
     static async voteHero(name,client){
@@ -40,6 +30,11 @@ class VoteApi{
             throw e;
         }
 
+    }
+
+    static async getHeroByName(name,client){
+        const results = await client.query(`SELECT * FROM heroes WHERE superhero=$1`,[name]);
+        return results.rows
     }
 
 }
